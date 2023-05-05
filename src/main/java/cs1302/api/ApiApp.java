@@ -221,19 +221,18 @@ public class ApiApp extends Application {
 //            System.out.println("testing new stuff");
             if (places.length > 0) {
                 ApiResult place = places[0];
-                System.out.println("Latitude: " + place.latitude);
-                System.out.println("State: " + place.state);
+                //  System.out.println("Latitude: " + place.latitude);
+                //System.out.println("State: " + place.state);
                 stateName = place.state;
                 lat = Float.parseFloat(place.latitude);
-                System.out.println("Longitude: " + place.longitude);
+                //System.out.println("Longitude: " + place.longitude);
                 longi = Float.parseFloat(place.longitude);
 //                System.out.println(lat + longi);
             }
-            System.out.println(uri);
-            System.out.println();
+//            System.out.println(uri);
+            //          System.out.println();
         } catch (IOException | InterruptedException e) {
-            System.out.println("Something went wrong...try again!");
-            System.out.println(e);
+            label.setText("Invalid");
         }
         return apiResponce;
     }
@@ -285,7 +284,7 @@ public class ApiApp extends Application {
         try {
             //String sun = URLEncoder.encode(results.getValue(), StandardCharsets.UTF_8);
             uri = SUN_API + lat + "&lng=" + longi + "&date=today";
-            System.out.println(uri);
+//            System.out.println(uri);
             HttpRequest userRequest = HttpRequest.newBuilder().uri(URI.create(uri)).build();
             HttpResponse<String> systemResponse = HTTP_CLIENT
                 .send(userRequest, BodyHandlers.ofString());
@@ -295,13 +294,13 @@ public class ApiApp extends Application {
             String json = systemResponse.body();
             sunResponse = GSON.fromJson(json,SunResponse.class);
             sunriseValue = sunResponse.results.sunrise;
-            System.out.println("Sunrise: " + sunriseValue);
+            //          System.out.println("Sunrise: " + sunriseValue);
             sunsetValue = sunResponse.results.sunset;
-            System.out.println("Sunset: " + sunsetValue);
+//            System.out.println("Sunset: " + sunsetValue);
             solarNoonValue = sunResponse.results.solarNoon;
-            System.out.println("Solar Noon: " + solarNoonValue);
+            // System.out.println("Solar Noon: " + solarNoonValue);
             dayLengthValue = sunResponse.results.dayLength;
-            System.out.println("Day Length: " + dayLengthValue);
+            //System.out.println("Day Length: " + dayLengthValue);
             Platform.runLater(() -> location.setText("Location: (" + longi + ", " + lat + ")"));
             Platform.runLater(() -> state.setText("State: " + stateName));
             Platform.runLater(() -> sunrise.setText("Sunrise: " + sunriseValue));
@@ -309,8 +308,7 @@ public class ApiApp extends Application {
             Platform.runLater(() -> solarNoon.setText("Solar Noon: " + solarNoonValue));
             Platform.runLater(() -> dayLength.setText("Day Length: " + dayLengthValue));
         } catch (IOException | InterruptedException e) {
-            System.out.println("Something went wrong...try again!");
-            System.out.println(e);
+            label.setText("Invalid");
         }
         return sunResponse;
     }
